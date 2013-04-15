@@ -46,15 +46,15 @@ class SmartGetFieldByName(object):
     def __call__(self, meta, name):
         assert not isinstance(self.real, SmartGetFieldByName)
         try:
-            return self.real(name)
-        except FieldDoesNotExist:
-            if name in meta.translations_model._meta.get_all_field_names():
-                raise WrongManager("To access translated fields like %r from "
-                                   "an untranslated model, you must use a "
-                                   "translation aware manager, you can get one "
-                                   "using "
-                                   "nani.utils.get_translation_aware_manager." %
-                                   name)
+            field = meta.translations_model._meta.get_field_by_name(name)
+            return field
+        except:
+            raise WrongManager("To access translated fields like %r from "
+                               "an untranslated model, you must use a "
+                               "translation aware manager, you can get one "
+                               "using "
+                               "nani.utils.get_translation_aware_manager." %
+                  name)
             raise
 
 
